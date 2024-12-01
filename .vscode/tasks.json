@@ -48,7 +48,8 @@
                 }
             },
             "command": [
-                "conda run --no-capture-output -n omni python weights/convert_safetensor_to_pt.py"
+                "conda run --no-capture-output -n omni python weights/convert_safetensor_to_pt.py --version v1",
+                "&& conda run --no-capture-output -n omni python weights/convert_safetensor_to_pt.py --version v1_5"
             ],
             "problemMatcher": []
         },
