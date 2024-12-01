@@ -1,0 +1,39 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "debugpy: omniparser @cpu",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/OmniParser/omniparser.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/OmniParser",
+            "env": {
+                // "HF_ENDPOINT": "https://hf-mirror.com",
+                // "HF_HUB_ETAG_TIMEOUT": "1000",
+                // "HF_HUB_DOWNLOAD_TIMEOUT": "1000",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
+                "EASYOCR_MODULE_PATH": "${workspaceFolder}/cache/.EasyOCR",
+                "KMP_DUPLICATE_LIB_OK": "TRUE"
+            },
+            "justMyCode": false
+        },
+        {
+            "name": "debugpy: gradio_demo @cuda",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/OmniParser/gradio_demo.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/OmniParser",
+            "env": {
+                // "HF_ENDPOINT": "https://hf-mirror.com",
+                // "HF_HUB_ETAG_TIMEOUT": "1000",
+                // "HF_HUB_DOWNLOAD_TIMEOUT": "1000",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
+                "EASYOCR_MODULE_PATH": "${workspaceFolder}/cache/.EasyOCR",
+                "KMP_DUPLICATE_LIB_OK": "TRUE"
+            },
+            "justMyCode": false
+        }
+    ]
+}
