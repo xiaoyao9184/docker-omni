@@ -1,0 +1,16 @@
+name: omni
+channels:
+  - conda-forge
+  - pytorch
+  - nvidia
+dependencies:
+  - python=3.12
+
+  - ipykernel==6.29.5
+
+  - pytorch==2.5.1
+  - torchvision==0.20.1
+  - pytorch-cuda==12.4
+
+  - pip:
+    - -r ./OmniParser/requirements.txt --index-url https://download.pytorch.org/whl/cu124
