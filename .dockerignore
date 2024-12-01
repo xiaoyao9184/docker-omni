@@ -1,0 +1,8 @@
+OmniParser/.git/
+OmniParser/.gradio/
+OmniParser/imgs/
+OmniParser/weights/*
+!OmniParser/weights/convert_safetensor_to_pt.py
+OmniParser/.gitignore
+# Ignore generated files
+**/*.pyc
