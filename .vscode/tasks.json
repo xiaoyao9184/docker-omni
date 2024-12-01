@@ -1,0 +1,84 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "docker: compose up@gpu-online",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/docker/up@gpu-online/"
+            },
+            "command": "docker compose -p omni up"
+        },
+        {
+            "label": "docker: build master",
+            "type": "shell",
+            "command": "docker build -t xiaoyao9184/omni:master -f ./docker/build@source/dockerfile ."
+        },
+        // {
+        //     "label": "docker: build 1.0.0",
+        //     "type": "shell",
+        //     "command": "docker build -t xiaoyao9184/omni:1.0.0 -f ./docker/build@pypi/dockerfile ."
+        // },
+        {
+            "label": "conda: run gradio_demo",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/OmniParser",
+                "env": {
+                    // "HF_ENDPOINT": "https://hf-mirror.com",
+                    // "HF_HUB_ETAG_TIMEOUT": "1000",
+                    // "HF_HUB_DOWNLOAD_TIMEOUT": "1000",
+                    "XDG_CACHE_HOME": "${workspaceFolder}/cache",
+                    "EASYOCR_MODULE_PATH": "${workspaceFolder}/cache/.EasyOCR",
+                    "KMP_DUPLICATE_LIB_OK": "TRUE"
+                }
+            },
+            "command": [
+                "conda run --no-capture-output -n omni python gradio_demo.py"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "conda: run convert_safetensor_to_pt",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/OmniParser",
+                "env": {
+                    "KMP_DUPLICATE_LIB_OK": "TRUE"
+                }
+            },
+            "command": [
+                "conda run --no-capture-output -n omni python weights/convert_safetensor_to_pt.py"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "huggingface-cli: download models",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    // "HF_ENDPOINT": "https://hf-mirror.com",
+                    // "HF_HUB_ETAG_TIMEOUT": "1000",
+                    // "HF_HUB_DOWNLOAD_TIMEOUT": "1000"
+                }
+            },
+            "command": [
+                "huggingface-cli download --cache-dir ./cache/huggingface/hub --revision main --local-dir ./OmniParser/weights microsoft/OmniParser",
+                "&& huggingface-cli download --cache-dir ./cache/huggingface/hub --revision main microsoft/Florence-2-base --include *.json",
+                "&& huggingface-cli download --cache-dir ./cache/huggingface/hub --revision main microsoft/Florence-2-base --include *.py",
+                "&& huggingface-cli download --cache-dir ./cache/huggingface/hub --revision main microsoft/Florence-2-base-ft --include *.json",
+                "&& huggingface-cli download --cache-dir ./cache/huggingface/hub --revision main microsoft/Florence-2-base-ft --include *.py",
+                "&& huggingface-cli download --cache-dir ./cache/huggingface/hub --revision master --local-dir ./cache/.EasyOCR/model xiaoyao9184/easyocr --include english_g2.pth",
+                "&& huggingface-cli download --cache-dir ./cache/huggingface/hub --revision master --local-dir ./cache/.EasyOCR/model xiaoyao9184/easyocr --include craft_mlt_25k.pth",
+            ]
+        },
+        {
+            "label": "conda: create env",
+            "type": "shell",
+            "command": [
+                "conda env create -f ./environment.yml"
+            ]
+        }
+    ]
+}
