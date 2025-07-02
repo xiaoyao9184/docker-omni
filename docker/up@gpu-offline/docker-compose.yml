@@ -2,18 +2,17 @@
 
 services:
   omni_app:
-    image: xiaoyao9184/omni:1.0.0
+    image: xiaoyao9184/omni:1.5.0
     container_name: omni_gradio
-    command: bash -c "python weights/convert_safetensor_to_pt.py --version v1 && python gradio_demo.py"
     environment:
       - TORCH_DEVICE=cuda
       - HF_HUB_OFFLINE=true
     ports:
       - "7861:7861"
     volumes:
-      - ./../../OmniParser/weights/icon_detect:/app/weights/icon_detect
-      - ./../../OmniParser/weights/icon_caption_florence:/app/weights/icon_caption_florence
+      - ./../../OmniParser/weights:/app/weights
       - ./../../cache/.EasyOCR:/root/.EasyOCR
+      - ./../../cache/.paddleocr:/root/.paddleocr
       - ./../../cache:/root/.cache
       - ./../../imgs:/app/imgs
     deploy:
