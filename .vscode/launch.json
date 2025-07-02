@@ -25,6 +25,10 @@
             "program": "${workspaceFolder}/OmniParser/gradio_demo.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/OmniParser",
+            "args": [
+                "--icon_detect_model", "${workspaceFolder}/OmniParser/weights/icon_detect_v1_5/model_v1_5.pt",
+                "--icon_caption_model", "florence2"
+            ],
             "env": {
                 // "HF_ENDPOINT": "https://hf-mirror.com",
                 // "HF_HUB_ETAG_TIMEOUT": "1000",
