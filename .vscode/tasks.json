@@ -10,15 +10,23 @@
             "command": "docker compose -p omni up"
         },
         {
+            "label": "docker: compose up@gpu-offline",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/docker/up@gpu-offline/"
+            },
+            "command": "docker compose -p omni up"
+        },
+        {
             "label": "docker: build master",
             "type": "shell",
             "command": "docker build -t xiaoyao9184/omni:master -f ./docker/build@source/dockerfile ."
         },
-        // {
-        //     "label": "docker: build 1.0.0",
-        //     "type": "shell",
-        //     "command": "docker build -t xiaoyao9184/omni:1.0.0 -f ./docker/build@pypi/dockerfile ."
-        // },
+        {
+            "label": "docker: build 1.5.0",
+            "type": "shell",
+            "command": "docker build -t xiaoyao9184/omni:1.5.0 -f ./docker/build@tag/dockerfile ."
+        },
         {
             "label": "conda: run gradio_demo",
             "type": "shell",
@@ -39,6 +47,7 @@
             "problemMatcher": []
         },
         {
+            // Only v1 need this step
             "label": "conda: run convert_safetensor_to_pt",
             "type": "shell",
             "options": {
@@ -48,8 +57,8 @@
                 }
             },
             "command": [
-                "conda run --no-capture-output -n omni python weights/convert_safetensor_to_pt.py --version v1",
-                "&& conda run --no-capture-output -n omni python weights/convert_safetensor_to_pt.py --version v1_5"
+                // missing 'weights/icon_detect/train_args.yaml'
+                "conda run --no-capture-output -n omni python weights/convert_safetensor_to_pt.py --weights_dir weights/icon_detect",
             ],
             "problemMatcher": []
         },
@@ -66,12 +75,18 @@
             },
             "command": [
                 "huggingface-cli download --cache-dir ./cache/huggingface/hub --revision main --local-dir ./OmniParser/weights microsoft/OmniParser",
+                // 
                 "&& huggingface-cli download --cache-dir ./cache/huggingface/hub --revision main microsoft/Florence-2-base --include *.json",
                 "&& huggingface-cli download --cache-dir ./cache/huggingface/hub --revision main microsoft/Florence-2-base --include *.py",
                 "&& huggingface-cli download --cache-dir ./cache/huggingface/hub --revision main microsoft/Florence-2-base-ft --include *.json",
                 "&& huggingface-cli download --cache-dir ./cache/huggingface/hub --revision main microsoft/Florence-2-base-ft --include *.py",
+                // 
                 "&& huggingface-cli download --cache-dir ./cache/huggingface/hub --revision master --local-dir ./cache/.EasyOCR/model xiaoyao9184/easyocr --include english_g2.pth",
                 "&& huggingface-cli download --cache-dir ./cache/huggingface/hub --revision master --local-dir ./cache/.EasyOCR/model xiaoyao9184/easyocr --include craft_mlt_25k.pth",
+                // 
+                "&& huggingface-cli download --cache-dir ./cache/huggingface/hub --revision main --local-dir ./cache/.paddleocr/whl opendatalab/PDF-Extract-Kit-1.0 --include models/OCR/paddleocr/whl/",
+                "&& rm -rf ./cache/.paddleocr/whl/cls ./cache/.paddleocr/whl/det ./cache/.paddleocr/whl/rec",
+                "&& mv ./cache/.paddleocr/whl/models/OCR/paddleocr/whl/* ./cache/.paddleocr/whl/"
             ]
         },
         {
